@@ -1,4 +1,4 @@
-let pokemons = [];
+const pokemons = [];
 
 async function getAllPokemon() {
   const resp = await fetch("https://pokeapi.co/api/v2/pokemon");
@@ -10,33 +10,33 @@ async function getAllPokemon() {
 
     const dataInfo = await respInfo.json();
 
-    pokemons.push(
-      dataInfo
-    );
-
-    console.log(pokemons);
+    pokemons.push({
+      id: dataInfo.id,
+      name: `${dataInfo.name}`,
+      image: `${dataInfo.sprites.front_default}`,
+    });
   });
 }
 
 getAllPokemon();
+console.log(pokemons);
+setTimeout(() => {
+  pokemons.forEach((pokemon) => printPoke(pokemon));
+}, 500);
 
-
-function printPoke() {
-  pokemons.forEach((poke) => {
-    console.log(poke)
-    document.getElementById("pokeCards").insertAdjacentHTML(
-      "beforeend",
-      `
-          <div class="cards">
-            <p>numero</p>
-            <p>${poke.name}</p>
-            <img src="" alt="" />
-            <p>info</p>
-          </div>
-          
-      `
-    );
-  });
+function printPoke(poke) {
+  document.getElementById("pokeCards").insertAdjacentHTML(
+    "beforeend",
+    `
+        <div class="Card">
+          <p>${poke.id}</p>
+          <p>${poke.name}</p>
+          <img src=${poke.image} alt="" />
+          <p>info</p>
+        </div>
+        
+    `
+  );
 }
 
 printPoke();
