@@ -1,28 +1,27 @@
-const pokemons = [];
+let pokemons = [];
+let responseData;
 
-async function getAllPokemon() {
-  const resp = await fetch("https://pokeapi.co/api/v2/pokemon");
+async function getAllPokemon(baseUrl) {
+  const resp = await fetch(baseUrl);
+  responseData = await resp.json();
 
-  const data = await resp.json();
-
-  data.results.forEach(async function (pokeInfo) {
+  pokemons = data.results.map(async function (pokeInfo) {
     const respInfo = await fetch(pokeInfo.url);
 
     const dataInfo = await respInfo.json();
 
-    pokemons.push({
+    return {
       id: dataInfo.id,
       name: `${dataInfo.name}`,
       image: `${dataInfo.sprites.front_default}`,
-    });
+    };
   });
 }
 
-getAllPokemon();
 console.log(pokemons);
 setTimeout(() => {
   pokemons.forEach((pokemon) => printPoke(pokemon));
-}, 500);
+}, 1000);
 
 function printPoke(poke) {
   document.getElementById("pokeCards").insertAdjacentHTML(
@@ -39,4 +38,13 @@ function printPoke(poke) {
   );
 }
 
-printPoke();
+async function nextPokemons() {
+  if (!responseData.next) {
+    return;
+  }
+  await getAllPokemon(responseData.next);
+
+  pokemons.forEach((pokemon) => printPoke(pokemon));
+}
+
+getAllPokemon("https://pokeapi.co/api/v2/pokemon");
