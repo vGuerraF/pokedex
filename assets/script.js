@@ -1,50 +1,63 @@
 let pokemons = [];
 let responseData;
+let contador = 0;
 
-async function getAllPokemon(baseUrl) {
-  const resp = await fetch(baseUrl);
+async function getAllPokemon() {
+  const resp = await fetch(
+    `https://pokeapi.co/api/v2/pokemon?offset=${contador}&limit=20`
+  );
   responseData = await resp.json();
 
-  pokemons = data.results.map(async function (pokeInfo) {
+  responseData.results.forEach(async function (pokeInfo) {
     const respInfo = await fetch(pokeInfo.url);
 
     const dataInfo = await respInfo.json();
 
-    return {
+    let types = []
+
+    dataInfo.types.forEach((tipo) => {types.push(tipo.type.name)})
+
+    pokemons.push({
       id: dataInfo.id,
       name: `${dataInfo.name}`,
       image: `${dataInfo.sprites.front_default}`,
-    };
+      types
+    });
   });
 }
 
-console.log(pokemons);
-setTimeout(() => {
-  pokemons.forEach((pokemon) => printPoke(pokemon));
-}, 1000);
 
 function printPoke(poke) {
   document.getElementById("pokeCards").insertAdjacentHTML(
     "beforeend",
     `
         <div class="Card">
-          <p>${poke.id}</p>
-          <p>${poke.name}</p>
-          <img src=${poke.image} alt="" />
-          <p>info</p>
-        </div>
-        
-    `
+            <p>Nº${poke.id}</p>
+            <p class="PokeName">${poke.name}</p>
+            <img src=${poke.image} alt="" />
+            <p>${poke.types}</p>
+          </div>
+          
+      `
   );
 }
 
-async function nextPokemons() {
-  if (!responseData.next) {
-    return;
-  }
-  await getAllPokemon(responseData.next);
+function nextPokemons() {
+  contador += 20;
 
-  pokemons.forEach((pokemon) => printPoke(pokemon));
+  getAllPokemon();
+
+  setTimeout(() => {
+    pokemons.sort(function(poke1, poke2){return poke1.id - poke2.id})
+    pokemons.forEach((pokemon) => printPoke(pokemon));
+  }, 1000);
+
+  pokemons = [];
 }
 
-getAllPokemon("https://pokeapi.co/api/v2/pokemon");
+setTimeout(() => {
+  pokemons.sort(function(poke1, poke2){return poke1.id - poke2.id})
+  pokemons.forEach((pokemon) => printPoke(pokemon));
+}, 1000);
+
+getAllPokemon();

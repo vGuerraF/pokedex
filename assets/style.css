@@ -1,8 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
+  font-family: "Roboto Mono";
 }
 
 body {
@@ -10,21 +13,22 @@ body {
 }
 
 header {
+  background: rgb(237, 59, 59);
+  background: radial-gradient(
+    circle,
+    rgba(237, 59, 59, 1) 0%,
+    rgba(222, 93, 82, 1) 35%,
+    rgba(252, 154, 154, 1) 100%
+  );
   display: flex;
-  background-color: tomato;
   height: 2rem;
   align-items: center;
 }
 
 header nav {
   width: 100%;
-}
-
-header ul {
   display: flex;
-  list-style: none;
   justify-content: space-evenly;
-  width: 100%;
 }
 
 main {
@@ -35,18 +39,38 @@ main {
 }
 
 #pokeCards {
+  background: rgb(247, 90, 90);
+  background: linear-gradient(
+    0deg,
+    rgba(247, 90, 90, 1) 0%,
+    rgba(255, 163, 155, 1) 35%,
+    rgba(252, 232, 220, 1) 100%
+  );
   min-width: 90%;
-  border: 2px solid black;
   display: flex;
   flex-wrap: wrap;
+  padding: 2.5rem;
+  align-items: center;
 }
 
 .Card {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  width: 10rem;
   margin: 10px;
-  border: 1.5px solid black;
-  background-color: antiquewhite;
-  border-radius: 5px;
-  padding: .2rem;
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.PokeName {
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
 footer {
