@@ -4,11 +4,6 @@ let responseData;
 let contadorPagina = 0;
 let contadorDescription = -1;
 
-// const modalId = document.querySelector("#PokeId");
-// const modalName = document.querySelector("#PokeName");
-// const modalImg = document.querySelector("#PokeImg");
-// const modalTypes = document.querySelector("#PokeTypes");
-
 async function getAllPokemon() {
   const resp = await fetch(
     `https://pokeapi.co/api/v2/pokemon?offset=${contadorPagina}&limit=20`
@@ -30,7 +25,7 @@ async function getAllPokemon() {
 
     contadorDescription++;
 
-    if (contadorDescription > 40) {
+    if (contadorDescription > 151) {
       contadorDescription = 0;
     }
 
@@ -71,18 +66,6 @@ function printPoke(poke) {
   );
 
   pokemonsInfo.push(poke);
-
-  // const cards = document.querySelectorAll(".Card");
-
-  // cards.forEach((card) => {
-  //   card.addEventListener("click", (event) => {
-  //     const cardElement = event.composedPath(1).filter((item) => {
-  //       item.className == "Card";
-  //     });
-  //     console.log(event);
-  //     console.log(cardElement)
-  //   });
-  // });
 }
 
 function nextPokemons() {
