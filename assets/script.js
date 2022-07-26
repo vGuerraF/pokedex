@@ -30,7 +30,7 @@ async function getAllPokemon() {
 
     contadorDescription++;
 
-    if (contadorDescription > 151) {
+    if (contadorDescription > 40) {
       contadorDescription = 0;
     }
 
